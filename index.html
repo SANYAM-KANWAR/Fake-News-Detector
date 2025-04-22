@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detection</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 20px 0;
+        }
+        h1 {
+            font-size: 36px;
+            margin: 0;
+        }
+        .container {
+            width: 60%;
+            margin: 50px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            font-size: 25px;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+        textarea {
+            width: 100%;
+            height: 150px;
+            padding: 15px;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            resize: vertical;
+        }
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+        .result.real {
+            color: green;
+        }
+        .result.fake {
+            color: red;
+        }
+        .result img {
+            margin-top: 20px;
+            width: 300px;
+            border-radius: 10px;
+        }
+        .warning {
+            color: #e67e22;
+            font-size: 20px;
+            font-weight: bold;
+            text-align: center;
+            background-color: #fff3cd;
+            border: 1px solid #ffeeba;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Fake News Detection</h1>
+    </header>
+
+    <div class="container">
+
+        {% if warning %}
+            <div class="warning"> {{ warning }}</div>
+        {% endif %}
+
+        <form method="POST">
+            <div class="form-group">
+                <label for="news">Enter News Text </label><br>
+                <textarea id="news" name="news" placeholder="Type or paste the news article here..."></textarea><br>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="submit-btn">Check News</button>
+            </div>
+        </form>
+
+        {% if prediction %}
+            <div class="result {% if prediction == 'Real News' %}real{% else %}fake{% endif %}">
+                Prediction: {{ prediction }}<br>
+                Confidence: {{ confidence|round(2) }}%<br>
+                {% if prediction == 'Real News' %}
+                <img src="{{ url_for('static', filename='real_news.gif') }}" alt="Real News">   
+                {% else %}
+                <img src="{{ url_for('static', filename='fake_news.gif') }}" alt="Fake News">
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+
+    <div class="footer">
+        <p>Fake News Detection System | created by Sanyam Kanwar for Machine Learning</p>
+    </div>
+
+</body>
+</html>
